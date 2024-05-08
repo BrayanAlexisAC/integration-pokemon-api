@@ -14,3 +14,6 @@ This repository focus to integrate with pokemon api (https://pokeapi.co/api/v2/p
 
 # Instructions
 ...
+
+# WSDLs
+- [DEV](http://localhost:8080/integration-poke-dev/api/ws/pokemon.wsdl)
