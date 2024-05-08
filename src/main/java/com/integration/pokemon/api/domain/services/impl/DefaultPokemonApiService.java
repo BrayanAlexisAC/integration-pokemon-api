@@ -1,4 +1,4 @@
-package com.integration.pokemon.api.domain.dtos.impl;
+package com.integration.pokemon.api.domain.services.impl;
 
 import com.integration.pokemon.api.domain.dtos.PokemonDTO;
 import com.integration.pokemon.api.domain.services.PokemonApiService;
