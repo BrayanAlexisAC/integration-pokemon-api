@@ -66,6 +66,10 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web-services'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
+	//	MapStruct
+	implementation 'org.mapstruct:mapstruct:1.5.5.Final'
+	annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.5.Final'
+
 	// Wsdl - SOAP Services
 	implementation 'wsdl4j:wsdl4j'
 	jaxb("org.glassfish.jaxb:jaxb-xjc")
