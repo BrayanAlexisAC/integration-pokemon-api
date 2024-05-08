@@ -7,6 +7,7 @@ This repository focus to integrate with pokemon api (https://pokeapi.co/api/v2/p
 
 # Libraries
 - Spring Web
+- Spring Web Services
 - Spring JPA
 - Lombook
 - Mssql driver
