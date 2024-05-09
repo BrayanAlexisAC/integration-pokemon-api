@@ -1,5 +1,6 @@
 package com.integration.pokemon.api.web.soap;
 
+import com.integration.pokemon.api.Constants.SoapService;
 import com.integration.pokemon.api.domain.services.PokemonApiService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ws.server.endpoint.annotation.Endpoint;
@@ -10,12 +11,11 @@ import services.brayan.pokemon_api_integration.*;
 
 @Endpoint
 public class PokemonCharacteristicsEndpoint {
-	private static final String NAMESPACE_URI = "http://brayan.services/pokemon-api-integration";
 
 	@Autowired
 	private PokemonApiService pokemonApiService;
 
-	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "getPokemonAbilitiesRequest")
+	@PayloadRoot(namespace = SoapService.DEFAULT_INTEGRATION_POKE_URI, localPart = "getPokemonAbilitiesRequest")
 	@ResponsePayload
 	public GetPokemonAbilitiesResponse getAbilities(@RequestPayload GetPokemonAbilitiesRequest request) {
 		var response = new GetPokemonAbilitiesResponse();
@@ -23,7 +23,7 @@ public class PokemonCharacteristicsEndpoint {
 		return response;
 	}
 
-	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "getPokemonBaseExperienceRequest")
+	@PayloadRoot(namespace = SoapService.DEFAULT_INTEGRATION_POKE_URI, localPart = "getPokemonBaseExperienceRequest")
 	@ResponsePayload
 	public GetPokemonBaseExperienceResponse getBaseExperience(@RequestPayload GetPokemonBaseExperienceRequest request) {
 		var response = new GetPokemonBaseExperienceResponse();
@@ -33,7 +33,7 @@ public class PokemonCharacteristicsEndpoint {
 		return response;
 	}
 
-	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "getPokemonIdRequest")
+	@PayloadRoot(namespace = SoapService.DEFAULT_INTEGRATION_POKE_URI, localPart = "getPokemonIdRequest")
 	@ResponsePayload
 	public GetPokemonIdResponse getBaseExperience(@RequestPayload GetPokemonIdRequest request) {
 		var response = new GetPokemonIdResponse();
@@ -42,7 +42,7 @@ public class PokemonCharacteristicsEndpoint {
 		return response;
 	}
 
-	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "getPokemonLocationAreaEncountersRequest")
+	@PayloadRoot(namespace = SoapService.DEFAULT_INTEGRATION_POKE_URI, localPart = "getPokemonLocationAreaEncountersRequest")
 	@ResponsePayload
 	public GetPokemonLocationAreaEncountersResponse getBaseExperience(@RequestPayload GetPokemonLocationAreaEncountersRequest request) {
 		var response = new GetPokemonLocationAreaEncountersResponse();

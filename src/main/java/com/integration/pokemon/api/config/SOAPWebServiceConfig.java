@@ -1,5 +1,6 @@
 package com.integration.pokemon.api.config;
 
+import com.integration.pokemon.api.Constants.SoapService;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
@@ -29,13 +30,13 @@ public class SOAPWebServiceConfig extends WsConfigurerAdapter {
 		DefaultWsdl11Definition wsdl11Definition = new DefaultWsdl11Definition();
 		wsdl11Definition.setPortTypeName("PokemonPort");
 		wsdl11Definition.setLocationUri("/ws");
-		wsdl11Definition.setTargetNamespace("http://brayan.services/pokemon-api-integration");
+		wsdl11Definition.setTargetNamespace(SoapService.DEFAULT_INTEGRATION_POKE_URI);
 		wsdl11Definition.setSchema(countriesSchema);
 		return wsdl11Definition;
 	}
 
 	@Bean
 	public XsdSchema pokemonSchema() {
-		return new SimpleXsdSchema(new ClassPathResource("xsd-schemas/pokemon.xsd"));
+		return new SimpleXsdSchema(new ClassPathResource(SoapService.SCHEMA_POKEMON));
 	}
 }
