@@ -33,8 +33,15 @@ public class PokemonCharacteristicsEndpoint {
 			var mapAbility = ((HashMap<String, String>) mapAbilities.get("ability"));
 			var soapAbility = new Ability();
 			soapAbility.setName(mapAbility.get("name"));
-			soapAbility.setUrl(mapAbility.get("url"));
 			soapAbilities.setAbility(soapAbility);
+
+			var abilityInf = pokemonApiService.getAbility(mapAbility.get("url"));
+			var lstAbilityEn = abilityInf.getEffectEntries().stream().filter(effectEntriesDTO ->
+					effectEntriesDTO.getLanguage().getName().equalsIgnoreCase("en")).toList();
+
+			if (!lstAbilityEn.isEmpty()){
+				soapAbility.setEffect(lstAbilityEn.get(0).getEffect());
+			}
 
 			response.getAbilities().add(soapAbilities);
 		});

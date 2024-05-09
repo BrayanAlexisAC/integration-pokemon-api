@@ -84,7 +84,7 @@
     <xs:complexType name="ability">
         <xs:sequence>
             <xs:element name="name" type="xs:string"/>
-            <xs:element name="url" type="xs:string"/>
+            <xs:element name="effect" type="xs:string"/>
         </xs:sequence>
     </xs:complexType>
 
