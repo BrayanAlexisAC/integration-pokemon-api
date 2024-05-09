@@ -3,6 +3,7 @@ package com.integration.pokemon.api.domain.services.impl;
 import com.integration.pokemon.api.Constants;
 import com.integration.pokemon.api.Constants.PokemonAPI;
 import com.integration.pokemon.api.domain.dtos.ability.AbilityDTO;
+import com.integration.pokemon.api.domain.dtos.heldItem.HeldItemDTO;
 import com.integration.pokemon.api.domain.dtos.pokemon.PokemonDTO;
 import com.integration.pokemon.api.domain.services.PokemonApiService;
 import io.micrometer.common.util.StringUtils;
@@ -45,6 +46,21 @@ public class DefaultPokemonApiService implements PokemonApiService {
                 return restTemplate.getForObject(url, AbilityDTO.class);
             } catch (RestClientException re){
                 LOG.error("Error with Pokemon API ability message:{}, cause:{}, stacktrace:{}",
+                        re.getMessage(), re.getCause(), Arrays.toString(re.getStackTrace()));
+                return null;
+            }
+        } else {
+            return null;
+        }
+    }
+
+    @Override
+    public HeldItemDTO getHeldItem(String url) {
+        if (StringUtils.isNotBlank(url)){
+            try{
+                return restTemplate.getForObject(url, HeldItemDTO.class);
+            } catch (RestClientException re){
+                LOG.error("Error with Pokemon API held item message:{}, cause:{}, stacktrace:{}",
                         re.getMessage(), re.getCause(), Arrays.toString(re.getStackTrace()));
                 return null;
             }
