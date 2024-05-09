@@ -1,4 +1,4 @@
-package com.integration.pokemon.api.domain.dtos;
+package com.integration.pokemon.api.domain.dtos.ability;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;

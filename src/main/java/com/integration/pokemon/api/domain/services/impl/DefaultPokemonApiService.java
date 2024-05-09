@@ -2,10 +2,9 @@ package com.integration.pokemon.api.domain.services.impl;
 
 import com.integration.pokemon.api.Constants;
 import com.integration.pokemon.api.Constants.PokemonAPI;
-import com.integration.pokemon.api.domain.dtos.AbilityDTO;
-import com.integration.pokemon.api.domain.dtos.PokemonDTO;
+import com.integration.pokemon.api.domain.dtos.ability.AbilityDTO;
+import com.integration.pokemon.api.domain.dtos.pokemon.PokemonDTO;
 import com.integration.pokemon.api.domain.services.PokemonApiService;
-import com.integration.pokemon.api.mappers.PokemonMapper;
 import io.micrometer.common.util.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,9 +26,6 @@ public class DefaultPokemonApiService implements PokemonApiService {
 
     @Autowired
     private RestTemplate restTemplate;
-
-    @Autowired
-    private PokemonMapper mapper;
 
     @Override
     public PokemonDTO getPokemon(String name) {

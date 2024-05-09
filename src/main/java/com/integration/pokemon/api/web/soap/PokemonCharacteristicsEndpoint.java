@@ -25,17 +25,14 @@ public class PokemonCharacteristicsEndpoint {
 		var pokemon = pokemonApiService.getPokemon(request.getName());
 
         pokemon.getAbilities().forEach(abilities -> {
-			var mapAbilities = (HashMap<String, Object>) abilities;
             var soapAbilities = new Abilities();
-            soapAbilities.setSlot((Integer) mapAbilities.get("slot"));
-			soapAbilities.setHidden((Boolean) mapAbilities.get("is_hidden"));
+            soapAbilities.setSlot(abilities.getSlot());
+			soapAbilities.setHidden(abilities.getIsHidden());
 
-			var mapAbility = ((HashMap<String, String>) mapAbilities.get("ability"));
 			var soapAbility = new Ability();
-			soapAbility.setName(mapAbility.get("name"));
-			soapAbilities.setAbility(soapAbility);
+			soapAbility.setName(abilities.getAbility().getName());
 
-			var abilityInf = pokemonApiService.getAbility(mapAbility.get("url"));
+			var abilityInf = pokemonApiService.getAbility(abilities.getAbility().getUrl());
 			var lstAbilityEn = abilityInf.getEffectEntries().stream().filter(effectEntriesDTO ->
 					effectEntriesDTO.getLanguage().getName().equalsIgnoreCase("en")).toList();
 
@@ -43,6 +40,7 @@ public class PokemonCharacteristicsEndpoint {
 				soapAbility.setEffect(lstAbilityEn.get(0).getEffect());
 			}
 
+			soapAbilities.setAbility(soapAbility);
 			response.getAbilities().add(soapAbilities);
 		});
 

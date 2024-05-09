@@ -1,4 +1,4 @@
-package com.integration.pokemon.api.domain.dtos;
+package com.integration.pokemon.api.domain.dtos.pokemon;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
@@ -18,8 +18,8 @@ public class PokemonDTO implements Serializable {
     @JsonProperty("base_experience")
     private Integer baseExperience;
     @JsonProperty("abilities")
-    private ArrayList<Object> abilities;
+    private ArrayList<PokemonAbilityDTO> abilities;
     @JsonProperty("held_items")
-    private ArrayList<Object> heldItems;
+    private ArrayList<PokemonHeldItemDTO> heldItems;
 
 }

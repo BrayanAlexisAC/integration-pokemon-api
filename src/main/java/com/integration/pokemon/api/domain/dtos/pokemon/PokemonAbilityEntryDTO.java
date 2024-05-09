@@ -1,11 +1,11 @@
-package com.integration.pokemon.api.domain.dtos;
+package com.integration.pokemon.api.domain.dtos.pokemon;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public class LanguageDTO {
+public class PokemonAbilityEntryDTO {
     private String name;
     private String url;
 }
