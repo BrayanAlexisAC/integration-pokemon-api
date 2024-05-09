@@ -1,6 +1,5 @@
 package com.integration.pokemon.api.web.soap;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.integration.pokemon.api.Constants.SoapService;
 import com.integration.pokemon.api.domain.services.PokemonApiService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,8 +8,6 @@ import org.springframework.ws.server.endpoint.annotation.PayloadRoot;
 import org.springframework.ws.server.endpoint.annotation.RequestPayload;
 import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
 import services.brayan.pokemon_api_integration.*;
-
-import java.util.HashMap;
 
 @Endpoint
 public class PokemonCharacteristicsEndpoint {
@@ -53,6 +50,36 @@ public class PokemonCharacteristicsEndpoint {
 		var response = new GetPokemonBaseExperienceResponse();
 		var pokemon = pokemonApiService.getPokemon(request.getName());
 		response.setBaseExperience(pokemon.getBaseExperience());
+
+		return response;
+	}
+
+	@PayloadRoot(namespace = SoapService.DEFAULT_INTEGRATION_POKE_URI, localPart = "getPokemonHeldItemsRequest")
+	@ResponsePayload
+	public GetPokemonHeldItemsResponse getBaseExperience(@RequestPayload GetPokemonHeldItemsRequest request) {
+		var response = new GetPokemonHeldItemsResponse();
+		var pokemon = pokemonApiService.getPokemon(request.getName());
+
+		var lstHeldItems = pokemon.getHeldItems().stream().map(pokemonHeldItemDTO -> {
+			var heldItemDTO = pokemonApiService.getHeldItem(pokemonHeldItemDTO.getItem().getUrl());
+			HeldItem heldItem = new HeldItem();
+			heldItem.setId(heldItemDTO.getId());
+			heldItem.setName(heldItemDTO.getName());
+			heldItem.setCost(heldItemDTO.getCost());
+			heldItem.setFlingPower(heldItemDTO.getFlingPower());
+			heldItem.setCategory(heldItemDTO.getCategory().getName());
+
+			var lstEffectEn = heldItemDTO.getEffectEntries().stream().filter(data ->
+					data.getLanguage().getName().equalsIgnoreCase("en")).toList();
+
+			if (!lstEffectEn.isEmpty()) {
+				heldItem.setEffect(lstEffectEn.get(0).getEffect());
+			}
+
+			return heldItem;
+		}).toList();
+
+		response.getHeldItems().addAll(lstHeldItems);
 
 		return response;
 	}
