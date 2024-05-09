@@ -1,5 +1,6 @@
 package com.integration.pokemon.api.web.soap;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.integration.pokemon.api.Constants.SoapService;
 import com.integration.pokemon.api.domain.services.PokemonApiService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,8 @@ import org.springframework.ws.server.endpoint.annotation.PayloadRoot;
 import org.springframework.ws.server.endpoint.annotation.RequestPayload;
 import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
 import services.brayan.pokemon_api_integration.*;
+
+import java.util.HashMap;
 
 @Endpoint
 public class PokemonCharacteristicsEndpoint {
@@ -19,6 +22,22 @@ public class PokemonCharacteristicsEndpoint {
 	@ResponsePayload
 	public GetPokemonAbilitiesResponse getAbilities(@RequestPayload GetPokemonAbilitiesRequest request) {
 		var response = new GetPokemonAbilitiesResponse();
+		var pokemon = pokemonApiService.getPokemon(request.getName());
+
+        pokemon.getAbilities().forEach(abilities -> {
+			var mapAbilities = (HashMap<String, Object>) abilities;
+            var soapAbilities = new Abilities();
+            soapAbilities.setSlot((Integer) mapAbilities.get("slot"));
+			soapAbilities.setHidden((Boolean) mapAbilities.get("is_hidden"));
+
+			var mapAbility = ((HashMap<String, String>) mapAbilities.get("ability"));
+			var soapAbility = new Ability();
+			soapAbility.setName(mapAbility.get("name"));
+			soapAbility.setUrl(mapAbility.get("url"));
+			soapAbilities.setAbility(soapAbility);
+
+			response.getAbilities().add(soapAbilities);
+		});
 
 		return response;
 	}
