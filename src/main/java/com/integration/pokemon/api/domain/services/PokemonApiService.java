@@ -2,7 +2,10 @@ package com.integration.pokemon.api.domain.services;
 
 import com.integration.pokemon.api.domain.dtos.ability.AbilityDTO;
 import com.integration.pokemon.api.domain.dtos.heldItem.HeldItemDTO;
+import com.integration.pokemon.api.domain.dtos.locationAreasEncounter.LocationAreaEncounterDTO;
 import com.integration.pokemon.api.domain.dtos.pokemon.PokemonDTO;
+
+import java.util.List;
 
 public interface PokemonApiService {
     /**
@@ -25,5 +28,12 @@ public interface PokemonApiService {
      * @return HeldItemDTO, attributes about a Held item
      */
     HeldItemDTO getHeldItem(String url);
+
+    /**
+     * Get information about a Pokemon location areas encounter
+     * @param url String, URL to get information (URL inside Pokemon information)
+     * @return LocationAreasEncounterDTO, attributes about location areas encounter
+     */
+    List<LocationAreaEncounterDTO> getLocationAreas(String url);
 
 }
