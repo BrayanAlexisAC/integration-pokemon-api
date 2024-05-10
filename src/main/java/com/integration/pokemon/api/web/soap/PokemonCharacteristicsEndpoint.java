@@ -98,7 +98,12 @@ public class PokemonCharacteristicsEndpoint {
 	public GetPokemonLocationAreaEncountersResponse getLocationAreasEncounters(@RequestPayload GetPokemonLocationAreaEncountersRequest request) {
 		var response = new GetPokemonLocationAreaEncountersResponse();
 		var pokemon = pokemonApiService.getPokemon(request.getName());
-		response.setUrl(pokemon.getLocationAreaEncounters());
+		var lstLocationAreasEncounter = pokemonApiService.getLocationAreas(pokemon.getLocationAreaEncounters());
+		var lstLocationAreas = lstLocationAreasEncounter.stream().map(locationArea ->
+				locationArea.getLocationArea().getName()).toList();
+
+		response.getLocation().addAll(lstLocationAreas);
+
 		return response;
 	}
 }
