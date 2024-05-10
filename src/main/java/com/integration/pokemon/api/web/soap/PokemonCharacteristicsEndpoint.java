@@ -56,7 +56,7 @@ public class PokemonCharacteristicsEndpoint {
 
 	@PayloadRoot(namespace = SoapService.DEFAULT_INTEGRATION_POKE_URI, localPart = "getPokemonHeldItemsRequest")
 	@ResponsePayload
-	public GetPokemonHeldItemsResponse getBaseExperience(@RequestPayload GetPokemonHeldItemsRequest request) {
+	public GetPokemonHeldItemsResponse getHeldItems(@RequestPayload GetPokemonHeldItemsRequest request) {
 		var response = new GetPokemonHeldItemsResponse();
 		var pokemon = pokemonApiService.getPokemon(request.getName());
 
@@ -86,7 +86,7 @@ public class PokemonCharacteristicsEndpoint {
 
 	@PayloadRoot(namespace = SoapService.DEFAULT_INTEGRATION_POKE_URI, localPart = "getPokemonIdRequest")
 	@ResponsePayload
-	public GetPokemonIdResponse getBaseExperience(@RequestPayload GetPokemonIdRequest request) {
+	public GetPokemonIdResponse getId(@RequestPayload GetPokemonIdRequest request) {
 		var response = new GetPokemonIdResponse();
 		var pokemon = pokemonApiService.getPokemon(request.getName());
 		response.setId(pokemon.getId());
@@ -95,7 +95,7 @@ public class PokemonCharacteristicsEndpoint {
 
 	@PayloadRoot(namespace = SoapService.DEFAULT_INTEGRATION_POKE_URI, localPart = "getPokemonLocationAreaEncountersRequest")
 	@ResponsePayload
-	public GetPokemonLocationAreaEncountersResponse getBaseExperience(@RequestPayload GetPokemonLocationAreaEncountersRequest request) {
+	public GetPokemonLocationAreaEncountersResponse getLocationAreasEncounters(@RequestPayload GetPokemonLocationAreaEncountersRequest request) {
 		var response = new GetPokemonLocationAreaEncountersResponse();
 		var pokemon = pokemonApiService.getPokemon(request.getName());
 		response.setUrl(pokemon.getLocationAreaEncounters());
