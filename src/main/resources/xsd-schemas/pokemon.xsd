@@ -72,6 +72,23 @@
         </xs:complexType>
     </xs:element>
 
+    <!--  Name  -->
+    <xs:element name="getPokemonNameRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="name" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="getPokemonNameResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="name" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
     <!--  Location Area Encounters  -->
     <xs:element name="getPokemonLocationAreaEncountersRequest">
         <xs:complexType>

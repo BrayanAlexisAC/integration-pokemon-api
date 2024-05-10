@@ -10,6 +10,8 @@ import org.springframework.ws.server.endpoint.annotation.RequestPayload;
 import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
 import services.brayan.pokemon_api_integration.*;
 
+import java.util.Objects;
+
 @Endpoint
 public class PokemonCharacteristicsEndpoint {
 
@@ -91,6 +93,17 @@ public class PokemonCharacteristicsEndpoint {
 		var response = new GetPokemonIdResponse();
 		var pokemon = pokemonApiService.getPokemon(request.getName());
 		response.setId(pokemon.getId());
+		return response;
+	}
+
+	@PayloadRoot(namespace = SoapService.DEFAULT_INTEGRATION_POKE_URI, localPart = "getPokemonNameRequest")
+	@ResponsePayload
+	public GetPokemonNameResponse getName(@RequestPayload GetPokemonNameRequest request) {
+		var response = new GetPokemonNameResponse();
+		var pokemon = pokemonApiService.getPokemon(request.getName());
+		if (Objects.nonNull(pokemon)) {
+			response.setName(pokemon.getName());
+		}
 		return response;
 	}
 
