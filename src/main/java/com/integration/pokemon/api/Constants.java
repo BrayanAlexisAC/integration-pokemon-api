@@ -2,6 +2,7 @@ package com.integration.pokemon.api;
 
 public class Constants {
     public static final String EMPTY_URL = "/";
+    public static final String DEFAULT_LANGUAGE_EN = "en";
 
     public static class PokemonAPI {
         public static final String URL = "service.pokemon.api.url";

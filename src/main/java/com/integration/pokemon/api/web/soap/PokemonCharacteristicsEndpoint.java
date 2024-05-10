@@ -1,5 +1,6 @@
 package com.integration.pokemon.api.web.soap;
 
+import com.integration.pokemon.api.Constants;
 import com.integration.pokemon.api.Constants.SoapService;
 import com.integration.pokemon.api.domain.services.PokemonApiService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +32,7 @@ public class PokemonCharacteristicsEndpoint {
 
 			var abilityInf = pokemonApiService.getAbility(abilities.getAbility().getUrl());
 			var lstAbilityEn = abilityInf.getEffectEntries().stream().filter(effectEntriesDTO ->
-					effectEntriesDTO.getLanguage().getName().equalsIgnoreCase("en")).toList();
+					effectEntriesDTO.getLanguage().getName().equalsIgnoreCase(Constants.DEFAULT_LANGUAGE_EN)).toList();
 
 			if (!lstAbilityEn.isEmpty()){
 				soapAbility.setEffect(lstAbilityEn.get(0).getEffect());
@@ -70,7 +71,7 @@ public class PokemonCharacteristicsEndpoint {
 			heldItem.setCategory(heldItemDTO.getCategory().getName());
 
 			var lstEffectEn = heldItemDTO.getEffectEntries().stream().filter(data ->
-					data.getLanguage().getName().equalsIgnoreCase("en")).toList();
+					data.getLanguage().getName().equalsIgnoreCase(Constants.DEFAULT_LANGUAGE_EN)).toList();
 
 			if (!lstEffectEn.isEmpty()) {
 				heldItem.setEffect(lstEffectEn.get(0).getEffect());
