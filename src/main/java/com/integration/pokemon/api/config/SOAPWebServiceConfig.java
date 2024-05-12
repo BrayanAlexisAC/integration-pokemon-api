@@ -2,6 +2,7 @@ package com.integration.pokemon.api.config;
 
 import com.integration.pokemon.api.Constants.SoapService;
 import com.integration.pokemon.api.domain.interceptors.GeneralSoapServicesInterceptor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
@@ -21,10 +22,13 @@ import java.util.List;
 @Configuration
 public class SOAPWebServiceConfig extends WsConfigurerAdapter {
 
+	@Autowired
+	private GeneralSoapServicesInterceptor generalSoapServicesInterceptor;
+
 	@Override
 	public void addInterceptors(List<EndpointInterceptor> interceptors) {
 		// register global interceptor
-		interceptors.add(new GeneralSoapServicesInterceptor());
+		interceptors.add(generalSoapServicesInterceptor);
 	}
 
 	@Bean
