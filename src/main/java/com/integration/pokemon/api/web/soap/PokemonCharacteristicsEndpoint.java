@@ -2,7 +2,7 @@ package com.integration.pokemon.api.web.soap;
 
 import com.integration.pokemon.api.Constants;
 import com.integration.pokemon.api.Constants.SoapService;
-import com.integration.pokemon.api.domain.services.PokemonApiService;
+import com.integration.pokemon.api.persistence.services.PokemonApiService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ws.server.endpoint.annotation.Endpoint;
 import org.springframework.ws.server.endpoint.annotation.PayloadRoot;

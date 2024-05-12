@@ -1,4 +1,4 @@
-package com.integration.pokemon.api.domain.services;
+package com.integration.pokemon.api.persistence.services;
 
 import com.integration.pokemon.api.domain.dtos.ability.AbilityDTO;
 import com.integration.pokemon.api.domain.dtos.heldItem.HeldItemDTO;

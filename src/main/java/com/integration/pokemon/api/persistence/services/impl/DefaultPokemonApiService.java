@@ -1,4 +1,4 @@
-package com.integration.pokemon.api.domain.services.impl;
+package com.integration.pokemon.api.persistence.services.impl;
 
 import com.integration.pokemon.api.Constants;
 import com.integration.pokemon.api.Constants.PokemonAPI;
@@ -6,7 +6,7 @@ import com.integration.pokemon.api.domain.dtos.ability.AbilityDTO;
 import com.integration.pokemon.api.domain.dtos.heldItem.HeldItemDTO;
 import com.integration.pokemon.api.domain.dtos.locationAreasEncounter.LocationAreaEncounterDTO;
 import com.integration.pokemon.api.domain.dtos.pokemon.PokemonDTO;
-import com.integration.pokemon.api.domain.services.PokemonApiService;
+import com.integration.pokemon.api.persistence.services.PokemonApiService;
 import io.micrometer.common.util.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
