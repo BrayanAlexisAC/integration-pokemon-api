@@ -11,6 +11,7 @@ public class Constants {
     public static class SoapService {
         public static final String DEFAULT_INTEGRATION_POKE_URI = "http://brayan.services/pokemon-api-integration";
         public static final String SCHEMA_POKEMON = "xsd-schemas/pokemon.xsd";
+        public static final String DEFAULT_IP_ORIGIN = "127.0.0.1";
     }
 
 }
