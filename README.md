@@ -20,6 +20,16 @@ This repository focus to integrate with pokemon api (https://pokeapi.co/api/v2/p
 - Get the WSDL -> **{{host}}**/integration-poke-**{{profile}}**/api/ws/pokemon.wsdl
 - Execute one of different methods available
 
+# Instructions to create and use a JAR
+- Download Repository **[Master Branch]**
+- run command -> **./gradlew bootJar**, This will create JAR file
+- go to the folder /build/libs
+- You find file pokemon.api-0.0.1-SNAPSHOT.jar
+- run command -> **java -jar pokemon.api-0.0.1-SNAPSHOT.jar**, This will turn on the server in the port:9090 (Stage environment) **[DEFAULT]**
+- Get the WSDL -> **{{host}}**/integration-poke-**{{profile}}**/api/ws/pokemon.wsdl
+- Execute one of different methods available
+
+
 # WSDLs
 - [DEV](http://localhost:8080/integration-poke-dev/api/ws/pokemon.wsdl)
 - [STG](http://localhost:9090/integration-poke-stg/api/ws/pokemon.wsdl) **[DEFAULT]**
