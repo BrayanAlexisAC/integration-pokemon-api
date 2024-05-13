@@ -1,4 +1,4 @@
-package com.integration.pokemon.api;
+package com.integration.pokemon.api.web;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

@@ -1,0 +1,143 @@
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:tns="http://brayan.services/pokemon-api-integration"
+           targetNamespace="http://brayan.services/pokemon-api-integration"
+           elementFormDefault="qualified">
+
+    <!--  Base Structures  -->
+    <!--  Abilities  -->
+    <xs:element name="getPokemonAbilitiesRequest" >
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="tns:generalRequest"/>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="getPokemonAbilitiesResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="abilities" type="tns:abilities" minOccurs="0" maxOccurs="unbounded"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <!--  Base experience  -->
+    <xs:element name="getPokemonBaseExperienceRequest">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="tns:generalRequest"/>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="getPokemonBaseExperienceResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="baseExperience" type="xs:int"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <!--  Held Items  -->
+    <xs:element name="getPokemonHeldItemsRequest">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="tns:generalRequest"/>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="getPokemonHeldItemsResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="heldItems" type="tns:heldItem" minOccurs="0" maxOccurs="unbounded"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <!--  ID  -->
+    <xs:element name="getPokemonIdRequest">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="tns:generalRequest"/>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="getPokemonIdResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="id" type="xs:int"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <!--  Name  -->
+    <xs:element name="getPokemonNameRequest">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="tns:generalRequest"/>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="getPokemonNameResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="name" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <!--  Location Area Encounters  -->
+    <xs:element name="getPokemonLocationAreaEncountersRequest">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="tns:generalRequest"/>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="getPokemonLocationAreaEncountersResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="location" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <!--  Objects  -->
+    <xs:complexType name="generalRequest" abstract="true">
+        <xs:sequence>
+            <xs:element name="name" type="xs:string"/>
+        </xs:sequence>
+        <xs:attribute name="ipOrigin" type="xs:string"/>
+    </xs:complexType>
+
+    <xs:complexType name="abilities">
+        <xs:sequence>
+            <xs:element name="ability" type="tns:ability"/>
+            <xs:element name="hidden" type="xs:boolean"/>
+            <xs:element name="slot" type="xs:int"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="ability">
+        <xs:sequence>
+            <xs:element name="name" type="xs:string"/>
+            <xs:element name="effect" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="heldItem">
+        <xs:sequence>
+            <xs:element name="id" type="xs:int"/>
+            <xs:element name="name" type="xs:string"/>
+            <xs:element name="cost" type="xs:int"/>
+            <xs:element name="flingPower" type="xs:int"/>
+            <xs:element name="category" type="xs:string"/>
+            <xs:element name="effect" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+
+</xs:schema>
