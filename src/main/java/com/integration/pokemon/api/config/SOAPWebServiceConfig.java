@@ -28,7 +28,7 @@ public class SOAPWebServiceConfig extends WsConfigurerAdapter {
 	@Override
 	public void addInterceptors(List<EndpointInterceptor> interceptors) {
 		// register global interceptor
-		interceptors.add(generalSoapServicesInterceptor);
+//		interceptors.add(generalSoapServicesInterceptor);
 	}
 
 	@Bean

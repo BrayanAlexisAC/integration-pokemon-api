@@ -7,9 +7,9 @@
     <!--  Abilities  -->
     <xs:element name="getPokemonAbilitiesRequest" >
         <xs:complexType>
-            <xs:sequence>
-                <xs:element name="name" type="xs:string"/>
-            </xs:sequence>
+            <xs:complexContent>
+                <xs:extension base="tns:generalRequest"/>
+            </xs:complexContent>
         </xs:complexType>
     </xs:element>
 
@@ -24,9 +24,9 @@
     <!--  Base experience  -->
     <xs:element name="getPokemonBaseExperienceRequest">
         <xs:complexType>
-            <xs:sequence>
-                <xs:element name="name" type="xs:string"/>
-            </xs:sequence>
+            <xs:complexContent>
+                <xs:extension base="tns:generalRequest"/>
+            </xs:complexContent>
         </xs:complexType>
     </xs:element>
 
@@ -41,9 +41,9 @@
     <!--  Held Items  -->
     <xs:element name="getPokemonHeldItemsRequest">
         <xs:complexType>
-            <xs:sequence>
-                <xs:element name="name" type="xs:string"/>
-            </xs:sequence>
+            <xs:complexContent>
+                <xs:extension base="tns:generalRequest"/>
+            </xs:complexContent>
         </xs:complexType>
     </xs:element>
 
@@ -58,9 +58,9 @@
     <!--  ID  -->
     <xs:element name="getPokemonIdRequest">
         <xs:complexType>
-            <xs:sequence>
-                <xs:element name="name" type="xs:string"/>
-            </xs:sequence>
+            <xs:complexContent>
+                <xs:extension base="tns:generalRequest"/>
+            </xs:complexContent>
         </xs:complexType>
     </xs:element>
 
@@ -75,9 +75,9 @@
     <!--  Name  -->
     <xs:element name="getPokemonNameRequest">
         <xs:complexType>
-            <xs:sequence>
-                <xs:element name="name" type="xs:string"/>
-            </xs:sequence>
+            <xs:complexContent>
+                <xs:extension base="tns:generalRequest"/>
+            </xs:complexContent>
         </xs:complexType>
     </xs:element>
 
@@ -92,9 +92,9 @@
     <!--  Location Area Encounters  -->
     <xs:element name="getPokemonLocationAreaEncountersRequest">
         <xs:complexType>
-            <xs:sequence>
-                <xs:element name="name" type="xs:string"/>
-            </xs:sequence>
+            <xs:complexContent>
+                <xs:extension base="tns:generalRequest"/>
+            </xs:complexContent>
         </xs:complexType>
     </xs:element>
 
@@ -107,6 +107,13 @@
     </xs:element>
 
     <!--  Objects  -->
+    <xs:complexType name="generalRequest" abstract="true">
+        <xs:sequence>
+            <xs:element name="name" type="xs:string"/>
+        </xs:sequence>
+        <xs:attribute name="ipOrigin" type="xs:string"/>
+    </xs:complexType>
+
     <xs:complexType name="abilities">
         <xs:sequence>
             <xs:element name="ability" type="tns:ability"/>
