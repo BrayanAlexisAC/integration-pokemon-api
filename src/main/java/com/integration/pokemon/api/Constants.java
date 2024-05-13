@@ -10,8 +10,19 @@ public class Constants {
 
     public static class SoapService {
         public static final String DEFAULT_INTEGRATION_POKE_URI = "http://brayan.services/pokemon-api-integration";
-        public static final String SCHEMA_POKEMON = "xsd-schemas/pokemon.xsd";
         public static final String DEFAULT_IP_ORIGIN = "127.0.0.1";
+
+        // SCHEMAS
+        public static final String SCHEMA_POKEMON = "xsd-schemas/pokemon.xsd";
+
+        // METHODS POKEMON API
+        public static final String GET_POKEMON_ABILITIES_REQUEST = "getPokemonAbilitiesRequest";
+        public static final String GET_POKEMON_BASE_EXPERIENCE_REQUEST = "getPokemonBaseExperienceRequest";
+        public static final String GET_POKEMON_HELD_ITEMS_REQUEST = "getPokemonHeldItemsRequest";
+        public static final String GET_POKEMON_ID_REQUEST = "getPokemonIdRequest";
+        public static final String GET_POKEMON_NAME_REQUEST = "getPokemonNameRequest";
+        public static final String GET_POKEMON_LOCATION_AREA_ENCOUNTERS_REQUEST = "getPokemonLocationAreaEncountersRequest";
+
     }
 
 }
