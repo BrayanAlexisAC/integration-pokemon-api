@@ -33,11 +33,16 @@ public class DefaultPokemonApiService implements PokemonApiService {
 
     @Override
     public PokemonDTO getPokemon(String name) {
-        try{
-            return restTemplate.getForObject(environment.getProperty(PokemonAPI.URL, Constants.EMPTY_URL) + name, PokemonDTO.class);
-        } catch (RestClientException re){
-            LOG.error("Error with Pokemon API message:{}, cause:{}, stacktrace:{}",
-                    re.getMessage(), re.getCause(), Arrays.toString(re.getStackTrace()));
+        if (StringUtils.isNotBlank(name)){
+            try{
+                return restTemplate.getForObject(environment.getProperty(PokemonAPI.URL, Constants.EMPTY_URL) + name.toLowerCase(), PokemonDTO.class);
+            } catch (RestClientException re){
+                LOG.error("Error with Pokemon API message:{}, cause:{}, stacktrace:{}",
+                        re.getMessage(), re.getCause(), Arrays.toString(re.getStackTrace()));
+                return null;
+            }
+        } else {
+            LOG.warn("Pokemon name cannot be null or empty");
             return null;
         }
     }
