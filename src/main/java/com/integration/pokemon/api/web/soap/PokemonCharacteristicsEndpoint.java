@@ -2,10 +2,13 @@ package com.integration.pokemon.api.web.soap;
 
 import com.integration.pokemon.api.Constants;
 import com.integration.pokemon.api.Constants.SoapService;
+import com.integration.pokemon.api.mappers.AbilityMapper;
+import com.integration.pokemon.api.mappers.HeldItemMapper;
 import com.integration.pokemon.api.persistence.entity.SoapServicesHistoryEntity;
 import com.integration.pokemon.api.persistence.services.PokemonApiService;
 import com.integration.pokemon.api.persistence.services.SoapServicesHistoryService;
 import io.micrometer.common.util.StringUtils;
+import jakarta.xml.ws.WebServiceException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,8 +17,6 @@ import org.springframework.ws.server.endpoint.annotation.PayloadRoot;
 import org.springframework.ws.server.endpoint.annotation.RequestPayload;
 import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
 import services.brayan.pokemon_api_integration.*;
-
-import java.util.Objects;
 
 @Endpoint
 public class PokemonCharacteristicsEndpoint {
@@ -27,32 +28,19 @@ public class PokemonCharacteristicsEndpoint {
 	@Autowired
 	private SoapServicesHistoryService soapServicesHistoryService;
 
+	@Autowired
+	private AbilityMapper abilityMapper;
+
+	@Autowired
+	private HeldItemMapper heldItemMapper;
+
 	@PayloadRoot(namespace = SoapService.DEFAULT_INTEGRATION_POKE_URI, localPart = SoapService.GET_POKEMON_ABILITIES_REQUEST)
 	@ResponsePayload
 	public GetPokemonAbilitiesResponse getAbilities(@RequestPayload GetPokemonAbilitiesRequest request) {
 		saveRequest(request, SoapService.GET_POKEMON_ABILITIES_REQUEST);
 		var response = new GetPokemonAbilitiesResponse();
 		var pokemon = pokemonApiService.getPokemon(request.getName());
-
-        pokemon.getAbilities().forEach(abilities -> {
-            var soapAbilities = new Abilities();
-            soapAbilities.setSlot(abilities.getSlot());
-			soapAbilities.setHidden(abilities.getIsHidden());
-
-			var soapAbility = new Ability();
-			soapAbility.setName(abilities.getAbility().getName());
-
-			var abilityInf = pokemonApiService.getAbility(abilities.getAbility().getUrl());
-			var lstAbilityEn = abilityInf.getEffectEntries().stream().filter(effectEntriesDTO ->
-					effectEntriesDTO.getLanguage().getName().equalsIgnoreCase(Constants.DEFAULT_LANGUAGE_EN)).toList();
-
-			if (!lstAbilityEn.isEmpty()){
-				soapAbility.setEffect(lstAbilityEn.get(0).getEffect());
-			}
-
-			soapAbilities.setAbility(soapAbility);
-			response.getAbilities().add(soapAbilities);
-		});
+		response.getAbilities().addAll(abilityMapper.toLstAbilities(pokemon.getAbilities()));
 
 		return response;
 	}
@@ -77,21 +65,7 @@ public class PokemonCharacteristicsEndpoint {
 
 		var lstHeldItems = pokemon.getHeldItems().stream().map(pokemonHeldItemDTO -> {
 			var heldItemDTO = pokemonApiService.getHeldItem(pokemonHeldItemDTO.getItem().getUrl());
-			HeldItem heldItem = new HeldItem();
-			heldItem.setId(heldItemDTO.getId());
-			heldItem.setName(heldItemDTO.getName());
-			heldItem.setCost(heldItemDTO.getCost());
-			heldItem.setFlingPower(heldItemDTO.getFlingPower());
-			heldItem.setCategory(heldItemDTO.getCategory().getName());
-
-			var lstEffectEn = heldItemDTO.getEffectEntries().stream().filter(data ->
-					data.getLanguage().getName().equalsIgnoreCase(Constants.DEFAULT_LANGUAGE_EN)).toList();
-
-			if (!lstEffectEn.isEmpty()) {
-				heldItem.setEffect(lstEffectEn.get(0).getEffect());
-			}
-
-			return heldItem;
+			return heldItemMapper.toHeldItem(heldItemDTO);
 		}).toList();
 
 		response.getHeldItems().addAll(lstHeldItems);
@@ -114,9 +88,11 @@ public class PokemonCharacteristicsEndpoint {
 	public GetPokemonNameResponse getName(@RequestPayload GetPokemonNameRequest request) {
 		saveRequest(request, SoapService.GET_POKEMON_NAME_REQUEST);
 		var response = new GetPokemonNameResponse();
-		var pokemon = pokemonApiService.getPokemon(request.getName());
-		if (Objects.nonNull(pokemon)) {
+		try {
+			var pokemon = pokemonApiService.getPokemon(request.getName());
 			response.setName(pokemon.getName());
+		} catch (RuntimeException e){
+			LOG.warn("Pokemon does not exist");
 		}
 		return response;
 	}
@@ -138,16 +114,20 @@ public class PokemonCharacteristicsEndpoint {
 
 	// Temporally method while create an interceptor with custom parameter in header
 	private void saveRequest(GeneralRequest request, String method) {
-		var isTrackingSaved = soapServicesHistoryService.save(
-				new SoapServicesHistoryEntity(0,
-						StringUtils.isNotBlank(request.getIpOrigin()) ? request.getIpOrigin() : Constants.SoapService.DEFAULT_IP_ORIGIN,
-						method)
-		);
+		if (StringUtils.isNotBlank(request.getIpOrigin()) && request.getIpOrigin().matches(Constants.Regex.IPV4)) {
+			var isTrackingSaved = soapServicesHistoryService.save(
+					new SoapServicesHistoryEntity(0,
+							StringUtils.isNotBlank(request.getIpOrigin()) ? request.getIpOrigin() : Constants.SoapService.DEFAULT_IP_ORIGIN,
+							method)
+			);
 
-		if (isTrackingSaved){
-			LOG.info("Track Created, Method:{}", method);
+			if (isTrackingSaved){
+				LOG.info("Track Created, Method:{}", method);
+			} else {
+				LOG.warn("Error to created tracking, Method:{}", method);
+			}
 		} else {
-			LOG.warn("Error to created tracking, Method:{}", method);
+			throw new WebServiceException("ipOrigin cannot be empty or it is not valid");
 		}
 	}
 }

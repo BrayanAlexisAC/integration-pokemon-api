@@ -8,6 +8,10 @@ public class Constants {
         public static final String URL = "service.pokemon.api.url";
     }
 
+    public static class Regex {
+        public static final String IPV4 = "^\\b(?:\\d{1,3}\\.){3}\\d{1,3}\\b$";
+    }
+
     public static class SoapService {
         public static final String DEFAULT_INTEGRATION_POKE_URI = "http://brayan.services/pokemon-api-integration";
         public static final String DEFAULT_IP_ORIGIN = "127.0.0.1";
