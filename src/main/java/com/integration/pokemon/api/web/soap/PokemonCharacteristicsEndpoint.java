@@ -16,8 +16,6 @@ import org.springframework.ws.server.endpoint.annotation.RequestPayload;
 import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
 import services.brayan.pokemon_api_integration.*;
 
-import java.util.Objects;
-
 @Endpoint
 public class PokemonCharacteristicsEndpoint {
 	private final static Logger LOG = LoggerFactory.getLogger(PokemonCharacteristicsEndpoint.class);
@@ -115,9 +113,11 @@ public class PokemonCharacteristicsEndpoint {
 	public GetPokemonNameResponse getName(@RequestPayload GetPokemonNameRequest request) {
 		saveRequest(request, SoapService.GET_POKEMON_NAME_REQUEST);
 		var response = new GetPokemonNameResponse();
-		var pokemon = pokemonApiService.getPokemon(request.getName());
-		if (Objects.nonNull(pokemon)) {
+		try {
+			var pokemon = pokemonApiService.getPokemon(request.getName());
 			response.setName(pokemon.getName());
+		} catch (RuntimeException e){
+			LOG.warn("Pokemon does not exist");
 		}
 		return response;
 	}
