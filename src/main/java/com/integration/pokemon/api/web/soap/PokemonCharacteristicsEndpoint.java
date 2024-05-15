@@ -3,6 +3,7 @@ package com.integration.pokemon.api.web.soap;
 import com.integration.pokemon.api.Constants;
 import com.integration.pokemon.api.Constants.SoapService;
 import com.integration.pokemon.api.mappers.AbilityMapper;
+import com.integration.pokemon.api.mappers.HeldItemMapper;
 import com.integration.pokemon.api.persistence.entity.SoapServicesHistoryEntity;
 import com.integration.pokemon.api.persistence.services.PokemonApiService;
 import com.integration.pokemon.api.persistence.services.SoapServicesHistoryService;
@@ -29,6 +30,9 @@ public class PokemonCharacteristicsEndpoint {
 
 	@Autowired
 	private AbilityMapper abilityMapper;
+
+	@Autowired
+	private HeldItemMapper heldItemMapper;
 
 	@PayloadRoot(namespace = SoapService.DEFAULT_INTEGRATION_POKE_URI, localPart = SoapService.GET_POKEMON_ABILITIES_REQUEST)
 	@ResponsePayload
@@ -61,21 +65,7 @@ public class PokemonCharacteristicsEndpoint {
 
 		var lstHeldItems = pokemon.getHeldItems().stream().map(pokemonHeldItemDTO -> {
 			var heldItemDTO = pokemonApiService.getHeldItem(pokemonHeldItemDTO.getItem().getUrl());
-			HeldItem heldItem = new HeldItem();
-			heldItem.setId(heldItemDTO.getId());
-			heldItem.setName(heldItemDTO.getName());
-			heldItem.setCost(heldItemDTO.getCost());
-			heldItem.setFlingPower(heldItemDTO.getFlingPower());
-			heldItem.setCategory(heldItemDTO.getCategory().getName());
-
-			var lstEffectEn = heldItemDTO.getEffectEntries().stream().filter(data ->
-					data.getLanguage().getName().equalsIgnoreCase(Constants.DEFAULT_LANGUAGE_EN)).toList();
-
-			if (!lstEffectEn.isEmpty()) {
-				heldItem.setEffect(lstEffectEn.get(0).getEffect());
-			}
-
-			return heldItem;
+			return heldItemMapper.toHeldItem(heldItemDTO);
 		}).toList();
 
 		response.getHeldItems().addAll(lstHeldItems);
