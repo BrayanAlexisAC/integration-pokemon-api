@@ -6,6 +6,7 @@ import com.integration.pokemon.api.persistence.entity.SoapServicesHistoryEntity;
 import com.integration.pokemon.api.persistence.services.PokemonApiService;
 import com.integration.pokemon.api.persistence.services.SoapServicesHistoryService;
 import io.micrometer.common.util.StringUtils;
+import jakarta.xml.ws.WebServiceException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -138,16 +139,20 @@ public class PokemonCharacteristicsEndpoint {
 
 	// Temporally method while create an interceptor with custom parameter in header
 	private void saveRequest(GeneralRequest request, String method) {
-		var isTrackingSaved = soapServicesHistoryService.save(
-				new SoapServicesHistoryEntity(0,
-						StringUtils.isNotBlank(request.getIpOrigin()) ? request.getIpOrigin() : Constants.SoapService.DEFAULT_IP_ORIGIN,
-						method)
-		);
+		if (StringUtils.isNotBlank(request.getIpOrigin()) && request.getIpOrigin().matches(Constants.Regex.IPV4)) {
+			var isTrackingSaved = soapServicesHistoryService.save(
+					new SoapServicesHistoryEntity(0,
+							StringUtils.isNotBlank(request.getIpOrigin()) ? request.getIpOrigin() : Constants.SoapService.DEFAULT_IP_ORIGIN,
+							method)
+			);
 
-		if (isTrackingSaved){
-			LOG.info("Track Created, Method:{}", method);
+			if (isTrackingSaved){
+				LOG.info("Track Created, Method:{}", method);
+			} else {
+				LOG.warn("Error to created tracking, Method:{}", method);
+			}
 		} else {
-			LOG.warn("Error to created tracking, Method:{}", method);
+			throw new WebServiceException("ipOrigin cannot be empty or it is not valid");
 		}
 	}
 }
