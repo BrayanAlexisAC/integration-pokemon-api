@@ -2,6 +2,7 @@ package com.integration.pokemon.api.web.soap;
 
 import com.integration.pokemon.api.Constants;
 import com.integration.pokemon.api.Constants.SoapService;
+import com.integration.pokemon.api.mappers.AbilityMapper;
 import com.integration.pokemon.api.persistence.entity.SoapServicesHistoryEntity;
 import com.integration.pokemon.api.persistence.services.PokemonApiService;
 import com.integration.pokemon.api.persistence.services.SoapServicesHistoryService;
@@ -26,32 +27,16 @@ public class PokemonCharacteristicsEndpoint {
 	@Autowired
 	private SoapServicesHistoryService soapServicesHistoryService;
 
+	@Autowired
+	private AbilityMapper abilityMapper;
+
 	@PayloadRoot(namespace = SoapService.DEFAULT_INTEGRATION_POKE_URI, localPart = SoapService.GET_POKEMON_ABILITIES_REQUEST)
 	@ResponsePayload
 	public GetPokemonAbilitiesResponse getAbilities(@RequestPayload GetPokemonAbilitiesRequest request) {
 		saveRequest(request, SoapService.GET_POKEMON_ABILITIES_REQUEST);
 		var response = new GetPokemonAbilitiesResponse();
 		var pokemon = pokemonApiService.getPokemon(request.getName());
-
-        pokemon.getAbilities().forEach(abilities -> {
-            var soapAbilities = new Abilities();
-            soapAbilities.setSlot(abilities.getSlot());
-			soapAbilities.setHidden(abilities.getIsHidden());
-
-			var soapAbility = new Ability();
-			soapAbility.setName(abilities.getAbility().getName());
-
-			var abilityInf = pokemonApiService.getAbility(abilities.getAbility().getUrl());
-			var lstAbilityEn = abilityInf.getEffectEntries().stream().filter(effectEntriesDTO ->
-					effectEntriesDTO.getLanguage().getName().equalsIgnoreCase(Constants.DEFAULT_LANGUAGE_EN)).toList();
-
-			if (!lstAbilityEn.isEmpty()){
-				soapAbility.setEffect(lstAbilityEn.get(0).getEffect());
-			}
-
-			soapAbilities.setAbility(soapAbility);
-			response.getAbilities().add(soapAbilities);
-		});
+		response.getAbilities().addAll(abilityMapper.toLstAbilities(pokemon.getAbilities()));
 
 		return response;
 	}
